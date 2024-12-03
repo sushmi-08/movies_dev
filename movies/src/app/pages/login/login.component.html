@@ -1,0 +1,46 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-red-500">
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
+    <h1 class="text-2xl font-bold text-center mb-6">Login</h1>
+    <form (ngSubmit)="onSubmit()">
+      <!-- Username Field -->
+      <div class="mb-4">
+        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+        <input
+          type="text"
+          id="username"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="userCredentials.username"
+          name="username"
+          required
+        />
+      </div>
+
+      <!-- Password Field -->
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="userCredentials.password"
+          name="password"
+          required
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition disabled:bg-gray-400"
+        [disabled]="!isFormValid()"
+      >
+        Login
+      </button>
+    </form>
+
+    <!-- Signup Link -->
+    <p class="mt-4 text-center text-sm">
+      Not a Member? <span routerLink="signup" class="text-blue-700 cursor-pointer">Sign Up</span>
+    </p>
+  </div>
+</div>
