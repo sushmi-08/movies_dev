@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Filter movies by category
-router.get('/category/cat_name', async (req, res) => {
+router.get('/category/:cat_name', async (req, res) => {
     try {
         const movies = await Movie.find({ category: req.params.cat_name });
         res.json({result: true, data: movies});
