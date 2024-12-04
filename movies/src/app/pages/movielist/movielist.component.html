@@ -1,1 +1,21 @@
-<p>movielist works!</p>
+<nav class="bg-gray-800 text-white p-4 flex justify-between items-center">
+  <div class="text-lg font-bold">
+    <a href="/" class="hover:text-red-500">Movie App</a>
+  </div>
+  <ul class="flex space-x-6">
+    <li><a href="/home" class="hover:text-red-500">Home</a></li>
+    <li><a href="/movies" class="hover:text-red-500">Movies</a></li>
+    <li><a href="/login" class="hover:text-red-500">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="flex space-x-4 p-4">
+  <app-card
+    *ngFor="let movie of movies"
+    [image_url]="movie.image_url"   
+    [title]="movie.name"            
+    [director]="movie.director"     
+    [cast]="movie.cast" 
+    [description]="movie.description"         
+  ></app-card>
+</div>
