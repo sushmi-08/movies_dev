@@ -13,4 +13,8 @@ export class GetallmoviesService {
   getAllMovies(): Observable<any> {
     return this.http.get<any>('http://localhost:5000/movies/allMovies')
   }
+
+  getMovieByCategory(category:any):Observable<any>{
+    return this.http.get<any>(`http://localhost:5000/movies/category/${category}`)
+  }
 }
