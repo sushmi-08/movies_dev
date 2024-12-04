@@ -11,6 +11,8 @@ const movieSchema = new mongoose.Schema({
     duration: { type: Number, required: true },
     availability: { type: Boolean, default: true },
     image_url: { type: String, required: true },
+    start_date: { type: Date, default: null },
+    end_date: { type: Date, default: null },
 });
 
 module.exports = mongoose.model('Movie', movieSchema);
