@@ -13,6 +13,7 @@ const movieSchema = new mongoose.Schema({
     image_url: { type: String, required: true },
     start_date: { type: Date, default: null },
     end_date: { type: Date, default: null },
+    language:{type:String,default:"English"}
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginComponent } from './login.component';
+import { GetallmoviesService } from 'src/app/services/getallmovies/getallmovies.service';
+import { SignupService } from 'src/app/services/signup/signup.service';
 
 fdescribe('LoginComponent', () => {
   let component: LoginComponent;
@@ -17,13 +19,14 @@ fdescribe('LoginComponent', () => {
     // Create spy objects for the dependencies
     signinServiceSpy = jasmine.createSpyObj('SigninService', ['signIn']);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-
+    // SignupService = jasmine.createSpyObj()
     await TestBed.configureTestingModule({
       declarations: [LoginComponent],
       imports: [FormsModule],
       providers: [
         { provide: SigninService, useValue: signinServiceSpy },
         { provide: Router, useValue: routerSpy },
+        {provide:GetallmoviesService, useClass:SigninService}
       ],
     }).compileComponents();
 
@@ -74,4 +77,8 @@ fdescribe('LoginComponent', () => {
 
     expect(signinServiceSpy.signIn).not.toHaveBeenCalled();
   });
+
+  // it("should check authentication",()=>{
+  //   SigninService.get
+  // })
 });
