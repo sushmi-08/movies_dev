@@ -16,30 +16,23 @@ export class CardComponent implements OnInit {
   @Input() cast: string[] = [];
  @Input() description:string='';
  @Input() movieId:string = '';
+ @Input() isAvailable:boolean=true;
  isExpanded: boolean = false;  
  userId:any;
 user:any;
-isAvailable:boolean=true;
 allMovieIds:any[]=[];
 allMovies:any[] = [];
 constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
   ngOnInit(): void {
+    console.log(this.isAvailable)
 
-    this.movie.rentedMovies$.subscribe(rentedMovies =>{
-      this.isAvailable = !rentedMovies.includes(this.movieId);
-    })
-   
-
-    
   }
 
   toogleCard(){
     this.isExpanded = !this.isExpanded;
   }
 
-  // handleRentStatus(){
-  //   this.isAvailable =
-  // }
+  
   handleBtnClick(){
     this.user = localStorage.getItem('user');
 
@@ -49,6 +42,7 @@ constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
       this.user = JSON.parse(this.user)
       this.userId = this.user._id;
       console.log("btn clicked",this.user._id, this.movieId);
+
       this.movie.setMovieRented(this.movieId,this.userId).subscribe((response)=>{
         console.log("movie rental success", response.user_data.rented_movies);
        this.isAvailable = response.movie_data.availability;
@@ -58,10 +52,7 @@ constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
        console.log("this.isAvailable",this.isAvailable);
       sessionStorage.setItem("rentedMovies",response.user_data.rented_movies);
 
-      // if(response.result){
-      //   this.isAvailable = false;
-      //   this.cdr.detectChanges();
-      // }
+      
        
         
       },

@@ -7,7 +7,7 @@
     <li><a href="/" class="hover:text-red-500">Logout</a></li>
   </ul>
 </nav>
-<nav class="bg-gray-500 text-white p-2 flex justify-around">
+<!-- <nav class="bg-gray-500 text-white p-2 flex justify-around">
   <ul class="flex space-x-6 items-center">
     <li><a href="#" class="hover:text-red-500">Rented</a></li>
     <li><a href="#" class="hover:text-red-500">Language</a></li>
@@ -27,7 +27,26 @@
       </select>
     </li>
   </ul>
-</nav>
+</nav> -->
+
+
+<div class="relative mt-4">
+  <!-- Genre Search Input -->
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchTermChange()"
+    class="bg-gray-800 text-white p-2 rounded-md w-48 ml-4"
+    placeholder="Search Genre..."
+  />
+  <ul *ngIf="searchTerm && filteredMovies.length > 0" class="absolute bg-gray-700 text-white w-full mt-2 p-2 rounded-md shadow-lg max-h-48 overflow-y-auto z-10">
+    <li *ngFor="let movie of filteredMovies" class="hover:bg-red-600 p-2 cursor-pointer" (click)="selectMovie(movie)">  
+      {{movie.name}}
+    </li>
+  </ul>
+</div>
+
+
 <div class="flex space-x-4 p-4">
   <app-card
     *ngFor="let movie of (filteredMovies.length?filteredMovies:movies)"
@@ -36,6 +55,9 @@
     [director]="movie.director"
     [cast]="movie.cast"
     [description]="movie.description"
-    [movieId]="movie._id"
+
+    [movieId]="movie._id" 
+    [isAvailable]="movie.availability"  
+
   ></app-card>
 </div>
