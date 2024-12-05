@@ -3,6 +3,7 @@
     <a href="/movielist" class="hover:text-red-500">Movie App</a>
   </div>
   <ul class="flex space-x-6">
+    <li><a href="/rented" class="hover:text-red-500">Rented</a></li>
     <li><a href="/" class="hover:text-red-500">Logout</a></li>
   </ul>
 </nav>
@@ -11,11 +12,11 @@
     <li><a href="#" class="hover:text-red-500">Rented</a></li>
     <li><a href="#" class="hover:text-red-500">Language</a></li>
     <li class="relative">
-     
+
       <select
         [(ngModel)]="selectedCategory"
         (change)="filterMoviesByCategory()"
-        class="bg-gray-800 text-white p-0.1 rounded-md "    
+        class="bg-gray-800 text-white p-0.1 rounded-md "
       >
         <option value="">Genre</option>
         <option value="Crime">Crime</option>
@@ -30,11 +31,11 @@
 <div class="flex space-x-4 p-4">
   <app-card
     *ngFor="let movie of (filteredMovies.length?filteredMovies:movies)"
-    [image_url]="movie.image_url"   
-    [title]="movie.name"            
-    [director]="movie.director"     
-    [cast]="movie.cast" 
+    [image_url]="movie.image_url"
+    [title]="movie.name"
+    [director]="movie.director"
+    [cast]="movie.cast"
     [description]="movie.description"
-    [movieId]="movie._id"         
+    [movieId]="movie._id"
   ></app-card>
 </div>

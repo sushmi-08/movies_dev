@@ -14,8 +14,19 @@ export class SigninService {
     return this.http.post<any>('http://localhost:5000/users/signIn', data);
   }
 
-  getAuth(){
-    console.log("fake auth");
-    
+  haveAccess() {
+    const loggedInUser = localStorage.getItem('user');
+
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser);
+      if (user.username == 'admin') {
+        return true;
+      } else {
+        alert('You are not authorized to access this page');
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 }

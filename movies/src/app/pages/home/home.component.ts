@@ -1,6 +1,8 @@
 import { SigninService } from 'src/app/services/signin/signin.service';
+
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -10,7 +12,10 @@ export class HomeComponent {
   showLoginPopup = false;
   userCredentials = { username: '', password: '' };
   api = inject(SigninService);
-  constructor(private route: Router) {}
+  constructor(private route: Router) {
+    localStorage.clear()
+  }
+
   openLoginPopup() {
     this.showLoginPopup = true;
   }
