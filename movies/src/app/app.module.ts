@@ -10,6 +10,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { CardComponent } from './common/card/card.component';
 import { MovielistComponent } from './pages/movielist/movielist.component';
 import { MoviedetailComponent } from './pages/moviedetail/moviedetail.component';
+import { RentedComponent } from './pages/rented/rented.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { MoviedetailComponent } from './pages/moviedetail/moviedetail.component'
     HomeComponent,
     CardComponent,
     MovielistComponent,
-    MoviedetailComponent
+    MoviedetailComponent,
+    RentedComponent
   ],
   imports: [
     BrowserModule,
