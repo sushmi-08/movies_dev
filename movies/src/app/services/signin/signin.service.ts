@@ -13,4 +13,9 @@ export class SigninService {
   signIn(data: any): Observable<any> {
     return this.http.post<any>('http://localhost:5000/users/signIn', data);
   }
+
+  getAuth(){
+    console.log("fake auth");
+    
+  }
 }

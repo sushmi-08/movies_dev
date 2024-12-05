@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -8,7 +8,15 @@ import { Injectable } from '@angular/core';
 })
 export class GetallmoviesService {
 
+  private rentedMoviesSubject = new BehaviorSubject<string[]>([]);
+
+  rentedMovies$ = this.rentedMoviesSubject.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  setRentedMovies(rentedMovies: string[]): void {
+    this.rentedMoviesSubject.next(rentedMovies);
+  }
 
   getAllMovies(): Observable<any> {
     return this.http.get<any>('http://localhost:5000/movies/allMovies')
@@ -16,5 +24,23 @@ export class GetallmoviesService {
 
   getMovieByCategory(category:any):Observable<any>{
     return this.http.get<any>(`http://localhost:5000/movies/category/${category}`)
+  }
+
+  setMovieRented(movieId:any,userId:any):Observable<any>{
+    return this.http.post(`http://localhost:5000/movies/rent-movie/${movieId}`,{userId});
+  }
+
+  resetMovieRented(movieId:any,userId:any):Observable<any>{
+    return this.http.post(`http://localhost:5000/movies/reset-movie/${movieId}`,{userId});
+  }
+
+  getAuth(){
+    console.log("real authentication");
+    
+  }
+
+  isMovieRented(movieId: string): boolean {
+    const rentedMovies = this.rentedMoviesSubject.getValue();
+    return rentedMovies.includes(movieId);
   }
 }

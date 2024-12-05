@@ -3,7 +3,7 @@
     <a href="/movielist" class="hover:text-red-500">Movie App</a>
   </div>
   <ul class="flex space-x-6">
-    <li><a href="/login" class="hover:text-red-500">Logout</a></li>
+    <li><a href="/" class="hover:text-red-500">Logout</a></li>
   </ul>
 </nav>
 <nav class="bg-gray-500 text-white p-2 flex justify-around">
@@ -34,6 +34,7 @@
     [title]="movie.name"            
     [director]="movie.director"     
     [cast]="movie.cast" 
-    [description]="movie.description"         
+    [description]="movie.description"
+    [movieId]="movie._id"         
   ></app-card>
 </div>

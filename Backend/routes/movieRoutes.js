@@ -37,6 +37,19 @@ router.get('/category/:cat_name', async (req, res) => {
     }
 });
 
+// Filter movies by language
+router.get('/category/:language', async (req, res) => {
+    try {
+        const movies = await Movie.find({ language: req.params.language });
+        res.json({result: true, data: movies});
+    } catch (err) {
+        res.status(500).json({ result: false, message: err.message });
+    }
+});
+
+
+
+
 // Post request for Movie renting
 router.post('/rent-movie/:movieId', async (req, res) => {
     const { userId } = req.body;
@@ -54,11 +67,14 @@ router.post('/rent-movie/:movieId', async (req, res) => {
 
         const startDate = new Date();
         const endDate = new Date();
-        endDate.setDate(startDate.getDate() + 3);
+        // console.log("end date",endDate);
+        
+        endDate.setMinutes(startDate.getMinutes() + 5);
 
         movie.availability = false;
         movie.start_date = startDate;
         movie.end_date = endDate;
+        //  console.log("end date",endDate);
 
         await movie.save();
 
@@ -78,10 +94,12 @@ router.post('/rent-movie/:movieId', async (req, res) => {
 });
 
 // Run a scheduled job every day at midnight
-schedule.scheduleJob('0 0 * * *', async () => {
+schedule.scheduleJob('* * * * *', async () => {
     try {
         const now = new Date();
-        const movies = await Movie.find({ end_date: { $lte: now }, availability: false });
+        console.log(now);
+        
+        const movies = await Movie.find({ end_date: { $lte:now}, availability: false });
 
         for (const movie of movies) {
             movie.availability = true;
@@ -129,7 +147,7 @@ router.post('/reset-movie/:movieId', async (req, res) => {
 
 // Add a new movie
 router.post('/addMovie', async (req, res) => {
-    const { name, category, rating, cast, director, release_date, description, duration, availability, image_url, start_date, end_date } = req.body;
+    const { name, category, rating, cast, director, release_date, description, duration, availability, image_url, start_date, end_date,language } = req.body;
 
     const movie = new Movie({
         name,
@@ -143,7 +161,8 @@ router.post('/addMovie', async (req, res) => {
         availability,
         image_url,
         start_date,
-        end_date
+        end_date,
+        language
     });
 
 
