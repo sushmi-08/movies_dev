@@ -34,9 +34,8 @@ export class GetallmoviesService {
     return this.http.post(`http://localhost:5000/movies/reset-movie/${movieId}`,{userId});
   }
 
-  getAuth(){
-    console.log("real authentication");
-    
+  getMovieById(movieId:any):Observable<any>{
+    return this.http.get(`http://localhost:5000/movies/${movieId}`)
   }
 
   isMovieRented(movieId: string): boolean {

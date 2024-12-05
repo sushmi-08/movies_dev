@@ -151,7 +151,7 @@ router.post('/addMovie', async (req, res) => {
 
     const movie = new Movie({
         name,
-        category,
+        category:category.toLowerCase(),
         rating,
         cast,
         director,
