@@ -11,7 +11,8 @@ import { CardComponent } from './common/card/card.component';
 import { MovielistComponent } from './pages/movielist/movielist.component';
 import { MoviedetailComponent } from './pages/moviedetail/moviedetail.component';
 import { RentedComponent } from './pages/rented/rented.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,9 @@ import { RentedComponent } from './pages/rented/rented.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -30,7 +30,7 @@ allMovies:any[] = [];
 constructor(private movie:GetallmoviesService,private route:Router){}
 
   ngOnInit(): void {
-    this.isRentedPage = this.router.url === '/rented';
+    this.isRentedPage = this.route.url === '/rented';
     console.log(this.isAvailable)
 
   }
