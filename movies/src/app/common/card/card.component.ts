@@ -1,3 +1,4 @@
+
 import { error } from 'console';
 import { GetallmoviesService } from 'src/app/services/getallmovies/getallmovies.service';
 import { CLIENT_RENEG_LIMIT } from 'tls';
@@ -25,7 +26,9 @@ export class CardComponent implements OnInit {
 user:any;
 allMovieIds:any[]=[];
 allMovies:any[] = [];
-constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef, private router: Router){}
+
+constructor(private movie:GetallmoviesService,private route:Router){}
+
   ngOnInit(): void {
     this.isRentedPage = this.router.url === '/rented';
     console.log(this.isAvailable)
@@ -37,7 +40,12 @@ constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef, pr
   }
 
 
-  handleBtnClick(){
+  
+  handleRentNowClick(event:Event){
+    event.stopPropagation();
+
+
+
     this.user = localStorage.getItem('user');
 
     console.log("this.user",this.user);
@@ -70,5 +78,9 @@ constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef, pr
     }
 
 
+  }
+
+  handleCardClick(){
+    this.route.navigate([`/moviedetail/${this.movieId}`])
   }
 }
