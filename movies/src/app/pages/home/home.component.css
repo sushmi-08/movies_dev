@@ -1,4 +1,4 @@
-#demo {
+/* #demo {
   font-family: "Lucida Console", "Courier New", monospace;
   font-weight: bold;
   color: #555555;
@@ -9,7 +9,8 @@
 footer {
   text-align: center;
   padding-top: 5px;
-} /* Login Popup */
+}
+
 .login-popup {
   position: fixed;
   top: 0;
@@ -53,4 +54,33 @@ footer {
 .buttons .btn {
   flex: 1;
   margin: 5px;
+} */
+
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1.5s ease-in-out;
+}
+
+.animate-slide-in {
+  animation: slide-in 1.5s ease-in-out;
 }
