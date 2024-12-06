@@ -1,23 +1,24 @@
 <div class="max-w-xs rounded overflow-hidden shadow-lg bg-gray-800 text-white" (click)="handleCardClick()">
     <!-- Card Image -->
     <img class="w-full h-56 object-cover" [src]="image_url" alt="Movie Poster" />
-  
-    
+
+
 
     <div *ngIf="isExpanded">
        <!-- Director and Actors -->
-       
+
        <p class="text-sm text-gray-400 line-clamp-3">Description: {{ description }}</p>
        <p class="text-sm text-gray-400">Director: {{ director }}</p>
        <p class="text-sm text-gray-400 line-clamp-1">Actors: {{ cast.join(',') }}</p>
     </div>
-  
+
     <div class="px-6 pt-4 pb-2">
       <!-- Button -->
+
       <button class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition duration-300 disabled:bg-gray-400" (click)="handleRentNowClick($event)" [disabled]="!isAvailable"
+
       >
         {{ isAvailable ? 'Rent Now' : 'Rented' }}
       </button>
     </div>
   </div>
-  
