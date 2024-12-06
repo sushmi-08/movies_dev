@@ -3,18 +3,30 @@
     <a href="/movielist" class="hover:text-red-500">Movie App</a>
   </div>
   <ul class="flex space-x-6">
-    <li><a href="/rented" class="hover:text-red-500">Rented</a></li>
+    <li><a href="/rented" class="text-red-500">Rented</a></li>
     <li><a href="/" class="hover:text-red-500">Logout</a></li>
   </ul>
 </nav>
 
-<div class="flex space-x-4 p-4">
-  <app-card
-  *ngFor="let movie of rentedMovies"
-    [title]="movie.name"
-    [description]="movie.description"
-    [director]="movie.director"
-    [cast]="movie.cast"
-    [image_url]="movie.image_url"
-  ></app-card>
+<div class="p-4">
+  <div *ngIf="rentedMovies && rentedMovies.length > 0; else noMovies">
+    <div class="flex space-x-4 p-4">
+      <app-card
+        *ngFor="let movie of rentedMovies"
+        [title]="movie.name"
+        [description]="movie.description"
+        [director]="movie.director"
+        [cast]="movie.cast"
+        [image_url]="movie.image_url"
+      ></app-card>
+    </div>
+  </div>
+
+  <!-- Fallback for no rented movies -->
+  <ng-template #noMovies>
+    <div class="text-center text-white mt-8">
+      <p class="text-xl text-gray-600">No movies rented till now</p>
+      <p class="text-gray-400">Browse the movie list and rent your favorite ones!</p>
+    </div>
+  </ng-template>
 </div>

@@ -1,7 +1,9 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { error } from 'console';
 import { GetallmoviesService } from 'src/app/services/getallmovies/getallmovies.service';
 import { CLIENT_RENEG_LIMIT } from 'tls';
+
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -17,13 +19,15 @@ export class CardComponent implements OnInit {
  @Input() description:string='';
  @Input() movieId:string = '';
  @Input() isAvailable:boolean=true;
- isExpanded: boolean = false;  
+ isExpanded: boolean = false;
+ isRentedPage: boolean = false;
  userId:any;
 user:any;
 allMovieIds:any[]=[];
 allMovies:any[] = [];
-constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
+constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef, private router: Router){}
   ngOnInit(): void {
+    this.isRentedPage = this.router.url === '/rented';
     console.log(this.isAvailable)
 
   }
@@ -32,7 +36,7 @@ constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
     this.isExpanded = !this.isExpanded;
   }
 
-  
+
   handleBtnClick(){
     this.user = localStorage.getItem('user');
 
@@ -48,23 +52,23 @@ constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
        this.isAvailable = response.movie_data.availability;
         const rentedMovies = response.user_data.rented_movies;
        this.movie.setRentedMovies(rentedMovies);
-       
+
        console.log("this.isAvailable",this.isAvailable);
       sessionStorage.setItem("rentedMovies",response.user_data.rented_movies);
 
-      
-       
-        
+
+
+
       },
     (error)=>{
       console.log("Error renting movie", error);
-      
+
     });
     }else{
       console.log('user data not found in local storage');
-      
+
     }
-    
-   
+
+
   }
 }

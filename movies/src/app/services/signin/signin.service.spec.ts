@@ -32,6 +32,18 @@ fdescribe('SigninService', () => {
     });
     service = TestBed.inject(SigninService);
     httpController = TestBed.inject(HttpTestingController);
+
+    // Mock localStorage
+    spyOn(localStorage, 'getItem').and.callFake((key: string) => {
+      switch (key) {
+        case 'user':
+          return JSON.stringify({ username: 'admin' });
+        default:
+          return null;
+      }
+    });
+    spyOn(localStorage, 'setItem').and.stub();
+    spyOn(localStorage, 'removeItem').and.stub();
   });
 
   afterEach(() => {
@@ -75,5 +87,34 @@ fdescribe('SigninService', () => {
     expect(req.request.body).toEqual(mockCredentials);
 
     req.flush(mockErrorResponse, { status: 404, statusText: 'Not Found' });
+  });
+
+  it('should return true when the logged-in user is admin', () => {
+    (localStorage.getItem as jasmine.Spy).and.returnValue(
+      JSON.stringify({ username: 'admin' })
+    );
+
+    const result = service.haveAccess();
+    expect(result).toBeTrue();
+  });
+
+  it('should return false and alert when the logged-in user is not admin', () => {
+    spyOn(window, 'alert');
+    (localStorage.getItem as jasmine.Spy).and.returnValue(
+      JSON.stringify({ username: 'user' })
+    );
+
+    const result = service.haveAccess();
+    expect(result).toBeFalse();
+    expect(window.alert).toHaveBeenCalledWith(
+      'You are not authorized to access this page'
+    );
+  });
+
+  it('should return false when no user is logged in', () => {
+    (localStorage.getItem as jasmine.Spy).and.returnValue(null);
+
+    const result = service.haveAccess();
+    expect(result).toBeFalse();
   });
 });

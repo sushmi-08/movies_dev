@@ -1,15 +1,15 @@
 import { of } from 'rxjs';
+import { GetallmoviesService } from 'src/app/services/getallmovies/getallmovies.service';
 import { SigninService } from 'src/app/services/signin/signin.service';
+import { SignupService } from 'src/app/services/signup/signup.service';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LoginComponent } from './login.component';
-import { GetallmoviesService } from 'src/app/services/getallmovies/getallmovies.service';
-import { SignupService } from 'src/app/services/signup/signup.service';
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let signinServiceSpy: jasmine.SpyObj<SigninService>;
