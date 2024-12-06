@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { error } from 'console';
 import { GetallmoviesService } from 'src/app/services/getallmovies/getallmovies.service';
 import { CLIENT_RENEG_LIMIT } from 'tls';
@@ -22,7 +23,7 @@ export class CardComponent implements OnInit {
 user:any;
 allMovieIds:any[]=[];
 allMovies:any[] = [];
-constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
+constructor(private movie:GetallmoviesService,private route:Router){}
   ngOnInit(): void {
     console.log(this.isAvailable)
 
@@ -33,7 +34,8 @@ constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
   }
 
   
-  handleBtnClick(){
+  handleRentNowClick(event:Event){
+    event.stopPropagation();
     this.user = localStorage.getItem('user');
 
     console.log("this.user",this.user);
@@ -66,5 +68,9 @@ constructor(private movie:GetallmoviesService, private cdr:ChangeDetectorRef){}
     }
     
    
+  }
+
+  handleCardClick(){
+    this.route.navigate([`/moviedetail/${this.movieId}`])
   }
 }

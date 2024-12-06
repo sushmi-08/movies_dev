@@ -1,4 +1,4 @@
-<div class="max-w-xs rounded overflow-hidden shadow-lg bg-gray-800 text-white">
+<div class="max-w-xs rounded overflow-hidden shadow-lg bg-gray-800 text-white" (click)="handleCardClick()">
     <!-- Card Image -->
     <img class="w-full h-56 object-cover" [src]="image_url" alt="Movie Poster" />
   
@@ -14,7 +14,7 @@
   
     <div class="px-6 pt-4 pb-2">
       <!-- Button -->
-      <button class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition duration-300 disabled:bg-gray-400" (click)="handleBtnClick()" [disabled]="!isAvailable"
+      <button class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition duration-300 disabled:bg-gray-400" (click)="handleRentNowClick($event)" [disabled]="!isAvailable"
       >
         {{ isAvailable ? 'Rent Now' : 'Rented' }}
       </button>
