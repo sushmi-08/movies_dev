@@ -12,6 +12,8 @@ import { MovielistComponent } from './pages/movielist/movielist.component';
 import { MoviedetailComponent } from './pages/moviedetail/moviedetail.component';
 import { RentedComponent } from './pages/rented/rented.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from "@angular/material/table"
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +28,9 @@ import { RentedComponent } from './pages/rented/rented.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
