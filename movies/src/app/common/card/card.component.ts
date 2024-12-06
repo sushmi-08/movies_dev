@@ -40,7 +40,7 @@ constructor(private movie:GetallmoviesService,private route:Router){}
   }
 
 
-  
+
   handleRentNowClick(event:Event){
     event.stopPropagation();
 

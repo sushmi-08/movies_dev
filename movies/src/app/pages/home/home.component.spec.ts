@@ -1,7 +1,6 @@
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { SigninService } from 'src/app/services/signin/signin.service';
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,13 +14,12 @@ fdescribe('HomeComponent', () => {
   let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
-    // Create spies for SigninService and Router
     const signinServiceMock = jasmine.createSpyObj('SigninService', ['signIn']);
     const routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       declarations: [HomeComponent],
-      imports: [FormsModule, HttpClientTestingModule], // Add FormsModule for ngModel
+      imports: [FormsModule],
       providers: [
         { provide: SigninService, useValue: signinServiceMock },
         { provide: Router, useValue: routerMock },
@@ -40,50 +38,20 @@ fdescribe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open the login popup when openLoginPopup is called', () => {
-    component.openLoginPopup();
-    expect(component.showLoginPopup).toBeTrue();
+  it('should clear localStorage on initialization', () => {
+    spyOn(localStorage, 'clear');
+    const fixture = TestBed.createComponent(HomeComponent);
+    fixture.detectChanges();
+    expect(localStorage.clear).toHaveBeenCalled();
   });
 
-  it('should close the login popup when closePopup is called', () => {
-    component.showLoginPopup = true;
-    component.closePopup();
-    expect(component.showLoginPopup).toBeFalse();
-  });
-
-  it('should close the popup on backdrop click', () => {
-    const mockEvent = {
-      target: {},
-      currentTarget: {},
-    };
-
-    // Ensure target and currentTarget are the same
-    mockEvent.target = mockEvent.currentTarget;
-
-    spyOn(component, 'closePopup');
-    component.closePopupOnBackdrop(mockEvent as MouseEvent);
-
-    expect(component.closePopup).toHaveBeenCalled();
-  });
-
-  // it('should not close the popup on click inside the popup', () => {
-  //   const mockEvent = {
-  //     target: {},
-  //     currentTarget: {},
-  //   } as MouseEvent;
-  //   spyOn(component, 'closePopup');
-  //   mockEvent.target = {}; // Simulate clicking inside the popup
-  //   component.closePopupOnBackdrop(mockEvent);
-  //   expect(component.closePopup).not.toHaveBeenCalled();
-  // });
-
-  it('should return true for valid form input in isFormValid', () => {
+  it('should return true for valid form inputs in isFormValid', () => {
     component.userCredentials.username = 'validUser';
     component.userCredentials.password = 'validPass';
     expect(component.isFormValid()).toBeTrue();
   });
 
-  it('should return false for invalid form input in isFormValid', () => {
+  it('should return false for invalid form inputs in isFormValid', () => {
     component.userCredentials.username = 'a';
     component.userCredentials.password = 'b';
     expect(component.isFormValid()).toBeFalse();
@@ -94,16 +62,48 @@ fdescribe('HomeComponent', () => {
       result: true,
       data: { username: 'validUser', password: 'validPass' },
     };
-    signinServiceSpy.signIn.and.returnValue(of(mockResponse)); // Mock the signIn method
-    spyOn(component, 'closePopup');
+    signinServiceSpy.signIn.and.returnValue(of(mockResponse));
+
+    spyOn(localStorage, 'setItem');
 
     component.userCredentials.username = 'validUser';
     component.userCredentials.password = 'validPass';
     component.onSubmit();
 
     expect(signinServiceSpy.signIn).toHaveBeenCalledWith(component.userCredentials);
+    expect(localStorage.setItem).toHaveBeenCalledWith('user', JSON.stringify(mockResponse.data));
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/movielist']);
-    expect(component.closePopup).toHaveBeenCalled();
+  });
+
+  it('should display an alert on invalid login credentials', () => {
+    const mockResponse = { result: false };
+    signinServiceSpy.signIn.and.returnValue(of(mockResponse));
+
+    spyOn(window, 'alert');
+
+    component.userCredentials.username = 'invalidUser';
+    component.userCredentials.password = 'invalidPass';
+    component.onSubmit();
+
+    expect(signinServiceSpy.signIn).toHaveBeenCalled();
+    expect(window.alert).toHaveBeenCalledWith('Invalid login credentials. Please try again.');
+  });
+
+  it('should display an alert on API error', () => {
+    signinServiceSpy.signIn.and.returnValue(throwError('API error'));
+
+    spyOn(window, 'alert');
+    spyOn(console, 'error');
+
+    component.userCredentials.username = 'validUser';
+    component.userCredentials.password = 'validPass';
+    component.onSubmit();
+
+    expect(signinServiceSpy.signIn).toHaveBeenCalled();
+    expect(window.alert).toHaveBeenCalledWith(
+      'An error occurred while logging in. Please try again later.'
+    );
+    expect(console.error).toHaveBeenCalledWith('Login error:', 'API error');
   });
 
   it('should not call signIn on invalid form submission', () => {
