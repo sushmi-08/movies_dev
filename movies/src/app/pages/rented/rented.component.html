@@ -7,7 +7,7 @@
   </ul>
 </nav>
 
-<div class="p-4">
+<!-- <div class="p-4">
   <div *ngIf="rentedMovies && rentedMovies.length > 0; else noMovies">
     <div class="flex space-x-4 p-4">
       <app-card
@@ -19,7 +19,7 @@
         [image_url]="movie.image_url"
       ></app-card>
     </div>
-  </div>
+  </div> -->
 
   <!-- Fallback for no rented movies -->
   <ng-template #noMovies>
@@ -28,4 +28,4 @@
       <p class="text-gray-400">Browse the movie list and rent your favorite ones!</p>
     </div>
   </ng-template>
-</div>
+<!-- </div> -->
