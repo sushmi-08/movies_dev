@@ -14,7 +14,8 @@ import { RentedComponent } from './pages/rented/rented.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from "@angular/material/table"
+import { MatTableModule } from "@angular/material/table";
+import { CarouselComponent } from './common/carousel/carousel.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +24,8 @@ import { MatTableModule } from "@angular/material/table"
     CardComponent,
     MovielistComponent,
     MoviedetailComponent,
-    RentedComponent
+    RentedComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,

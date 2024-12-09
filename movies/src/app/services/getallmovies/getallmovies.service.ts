@@ -42,4 +42,8 @@ export class GetallmoviesService {
     const rentedMovies = this.rentedMoviesSubject.getValue();
     return rentedMovies.includes(movieId);
   }
+
+  getRandom(): Observable<any> {
+    return this.http.get<any>('http://localhost:5000/movies/random/5');
+  }
 }

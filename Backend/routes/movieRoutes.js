@@ -68,7 +68,7 @@ router.post('/rent-movie/:movieId', async (req, res) => {
         const startDate = new Date();
         const endDate = new Date();
         // console.log("end date",endDate);
-        
+
         endDate.setMinutes(startDate.getMinutes() + 5);
 
         movie.availability = false;
@@ -98,7 +98,7 @@ schedule.scheduleJob('* * * * *', async () => {
     try {
         const now = new Date();
         console.log(now);
-        
+
         const movies = await Movie.find({ end_date: { $lte:now}, availability: false });
 
         for (const movie of movies) {
@@ -171,6 +171,16 @@ router.post('/addMovie', async (req, res) => {
         res.status(201).json({result: true, data: newMovie});
     } catch (err) {
         res.status(400).json({ result: false, message: err.message });
+    }
+});
+
+// Get 5 random collections
+router.get('/random/:count', async (req, res) => {
+    try {
+        const randomMovies = await Movie.aggregate([{ $sample: { size: req.params.count * 1} }]);
+        res.json({result: true, data: randomMovies});
+    } catch (err) {
+        res.status(500).json({ result: false, message: err.message });
     }
 });
 

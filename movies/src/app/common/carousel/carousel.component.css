@@ -1,0 +1,58 @@
+/* .relative {
+  position: relative;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.max-w-screen-lg {
+  max-width: 1024px;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.flex {
+  display: flex;
+}
+
+.transition-transform {
+  transition: transform 0.7s ease-in-out;
+}
+
+.bg-cover {
+  background-size: cover;
+}
+
+.bg-center {
+  background-position: center;
+}
+
+.bg-black {
+  background-color: black;
+}
+
+.bg-opacity-50 {
+  background-opacity: 0.5;
+}
+
+.text-white {
+  color: white;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+} */
