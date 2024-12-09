@@ -83,6 +83,7 @@ export class HomeComponent implements OnInit {
             localStorage.setItem('user', JSON.stringify(response.data));
             this.route.navigate(['/movielist']);
           } else {
+            console.log('Invalid credentials:', response);
             alert('Invalid login credentials. Please try again.');
           }
         },

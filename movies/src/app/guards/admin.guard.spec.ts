@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SigninService } from '../services/signin/signin.service';
 import { AdminGuard } from './admin.guard';
 
-fdescribe('AdminGuard', () => {
+describe('AdminGuard', () => {
   let guard: AdminGuard;
   let signinServiceSpy: jasmine.SpyObj<SigninService>;
   let routerSpy: jasmine.SpyObj<Router>;

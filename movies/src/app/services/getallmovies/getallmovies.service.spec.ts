@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { GetallmoviesService } from './getallmovies.service';
 
-fdescribe('GetallmoviesService', () => {
+describe('GetallmoviesService', () => {
   let service: GetallmoviesService;
   let httpController: HttpTestingController;
 

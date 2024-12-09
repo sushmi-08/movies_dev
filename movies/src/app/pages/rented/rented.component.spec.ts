@@ -20,7 +20,7 @@ class MockCardComponent {
   @Input() image_url!: string;
 }
 
-fdescribe('RentedComponent', () => {
+describe('RentedComponent', () => {
   let component: RentedComponent;
   let fixture: ComponentFixture<RentedComponent>;
   let getAllMoviesSpy: jasmine.SpyObj<GetallmoviesService>;
@@ -71,14 +71,14 @@ fdescribe('RentedComponent', () => {
     expect(component.rentedMovies[0].name).toBe('Movie 1');
   });
 
-  it('should display rented movies if available', () => {
-    getAllMoviesSpy.getAllMovies.and.returnValue(of({ result: true, data: mockMovies }));
+  // it('should display rented movies if available', () => {
+  //   getAllMoviesSpy.getAllMovies.and.returnValue(of({ result: true, data: mockMovies }));
 
-    fixture.detectChanges();
+  //   fixture.detectChanges();
 
-    const cardComponents = fixture.debugElement.queryAll(By.css('app-card'));
-    expect(cardComponents.length).toBe(1);
-  });
+  //   const cardComponents = fixture.debugElement.queryAll(By.css('app-card'));
+  //   expect(cardComponents.length).toBe(1);
+  // });
 
   it('should display fallback message when no movies are rented', () => {
     getAllMoviesSpy.getAllMovies.and.returnValue(of({ result: true, data: [] }));

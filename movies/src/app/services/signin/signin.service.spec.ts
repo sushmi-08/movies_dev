@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SigninService } from './signin.service';
 
-fdescribe('SigninService', () => {
+describe('SigninService', () => {
   let service: SigninService;
   let httpController: HttpTestingController;
 
