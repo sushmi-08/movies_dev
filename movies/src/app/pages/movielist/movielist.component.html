@@ -22,11 +22,14 @@
     </mat-option>
   </mat-autocomplete>
 </div> -->
-
-
+<div class="w-full flex justify-center mt-4">
+  <div class="w-full max-w-6xl">
+    <app-carousel></app-carousel>
+  </div>
+</div>
 
 <div class="relative mt-4">
-  
+
   <input
     type="text"
     [(ngModel)]="searchTerm"
@@ -35,7 +38,7 @@
     placeholder="Search Genre..."
   />
   <ul *ngIf="searchTerm && filteredMovies.length > 0" class="absolute bg-gray-700 text-white w-60 mt-2 p-2 rounded-md shadow-lg max-h-48 overflow-y-auto z-10">
-    <li *ngFor="let movie of filteredMovies" class="hover:bg-red-600 p-2 cursor-pointer" (click)="selectMovie(movie)">  
+    <li *ngFor="let movie of filteredMovies" class="hover:bg-red-600 p-2 cursor-pointer" (click)="selectMovie(movie)">
       {{movie.name}}
     </li>
   </ul>
@@ -51,8 +54,8 @@
     [cast]="movie.cast"
     [description]="movie.description"
 
-    [movieId]="movie._id" 
-    [isAvailable]="movie.availability"  
+    [movieId]="movie._id"
+    [isAvailable]="movie.availability"
 
   ></app-card>
 </div>
