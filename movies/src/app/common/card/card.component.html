@@ -1,4 +1,4 @@
-<div class="max-w-xs rounded overflow-hidden shadow-lg bg-gray-800 text-white" (click)="handleCardClick()">
+<div class="max-w-xs min-h-[200px] rounded overflow-hidden shadow-lg bg-gray-800 text-white" (click)="handleCardClick()">
     <!-- Card Image -->
     <img class="w-full h-56 object-cover cursor-pointer" [src]="image_url" alt="Movie Poster" />
 
@@ -12,13 +12,23 @@
        <p class="text-sm text-gray-400 line-clamp-1">Actors: {{ cast.join(',') }}</p>
     </div>
 
-    <div class="px-6 pt-4 pb-2">
+    <div class="p-2 text-center relative h-20">
       <!-- Button -->
 
       <button *ngIf="!isRentedPage" class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition duration-300 disabled:bg-gray-400" (click)="handleRentNowClick($event)" [disabled]="!isAvailable"
-
+      [class.cursor-not-allowed]="!isAvailable"
+      (mouseenter)="isHovered = true"
+      (mouseleave)="isHovered = false"
       >
         {{ isAvailable ? 'Rent Now' : 'Rented' }}
       </button>
-    </div>
+       <!-- Display endDate on Hover when Rented --> 
+       <p *ngIf="!isAvailable && isHovered">
+        Rented Until:<span>  {{ endDate | date:'shortDate'}} </span>
+      </p>
+     
+    </div>  
+   
   </div>
+
+ 

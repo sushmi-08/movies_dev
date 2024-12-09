@@ -11,7 +11,8 @@ import { CardComponent } from './common/card/card.component';
 import { MovielistComponent } from './pages/movielist/movielist.component';
 import { MoviedetailComponent } from './pages/moviedetail/moviedetail.component';
 import { RentedComponent } from './pages/rented/rented.component';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from "@angular/material/table"
 @NgModule({
@@ -30,7 +31,10 @@ import { MatTableModule } from "@angular/material/table"
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatTableModule
+    MatTableModule,
+    MatButtonModule,
+    MatTooltipModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
