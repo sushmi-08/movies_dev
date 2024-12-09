@@ -92,6 +92,8 @@ export class HomeComponent implements OnInit {
           console.error('Login error:', error);
         }
       );
+    }else{
+      alert('Invalid Credentials. Please try again')
     }
   }
 }

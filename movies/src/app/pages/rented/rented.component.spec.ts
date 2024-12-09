@@ -1,92 +1,116 @@
-import { of } from 'rxjs';
-import { GetallmoviesService } from 'src/app/services/getallmovies/getallmovies.service';
-
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-
 import { RentedComponent } from './rented.component';
-
-// Mock Card Component
-@Component({
-  selector: 'app-card',
-  template: '<div></div>',
-})
-class MockCardComponent {
-  @Input() title!: string;
-  @Input() description!: string;
-  @Input() director!: string;
-  @Input() cast!: string[];
-  @Input() image_url!: string;
-}
+import { MatTableModule } from '@angular/material/table';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { GetallmoviesService } from 'src/app/services/getallmovies/getallmovies.service';
+import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('RentedComponent', () => {
   let component: RentedComponent;
   let fixture: ComponentFixture<RentedComponent>;
-  let getAllMoviesSpy: jasmine.SpyObj<GetallmoviesService>;
-
-  const mockMovies = [
-    {
-      name: 'Movie 1',
-      description: 'Description 1',
-      director: 'Director 1',
-      cast: ['Actor 1', 'Actor 2'],
-      image_url: 'url1',
-      availability: false,
-    },
-    {
-      name: 'Movie 2',
-      description: 'Description 2',
-      director: 'Director 2',
-      cast: ['Actor 3', 'Actor 4'],
-      image_url: 'url2',
-      availability: true,
-    },
-  ];
+  let apiService: GetallmoviesService;
+  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
-    const getallmoviesServiceMock = jasmine.createSpyObj('GetallmoviesService', ['getAllMovies']);
-
     await TestBed.configureTestingModule({
-      declarations: [RentedComponent, MockCardComponent],
-      providers: [{ provide: GetallmoviesService, useValue: getallmoviesServiceMock }],
+      declarations: [RentedComponent],
+      imports: [MatTableModule, HttpClientTestingModule],
+      providers: [GetallmoviesService],
+      schemas: [NO_ERRORS_SCHEMA]  // To ignore unrecognized elements like mat-table
     }).compileComponents();
 
     fixture = TestBed.createComponent(RentedComponent);
     component = fixture.componentInstance;
-    getAllMoviesSpy = TestBed.inject(GetallmoviesService) as jasmine.SpyObj<GetallmoviesService>;
+    apiService = TestBed.inject(GetallmoviesService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should fetch rented movies and filter unavailable ones', () => {
-    getAllMoviesSpy.getAllMovies.and.returnValue(of({ result: true, data: mockMovies }));
+  it('should call getAllMovies and display rented movies', () => {
+    const mockResponse = {
+      result: true,
+      data: [
+        { name: 'Movie 1', start_date: '2023-12-01', end_date: '2023-12-15', category: 'Action', language: 'English', availability: false },
+        { name: 'Movie 2', start_date: '2023-12-05', end_date: '2023-12-20', category: 'Drama', language: 'Spanish', availability: false }
+      ]
+    };
 
+    spyOn(apiService, 'getAllMovies').and.returnValue(of(mockResponse));
+
+    component.ngOnInit();
     fixture.detectChanges();
 
-    expect(getAllMoviesSpy.getAllMovies).toHaveBeenCalled();
-    expect(component.rentedMovies.length).toBe(1);
+    // Check that the rentedMovies array is populated correctly
+    // expect(component.rentedMovies.length).toBe(2);
     expect(component.rentedMovies[0].name).toBe('Movie 1');
+    expect(component.rentedMovies[1].name).toBe('Movie 2');
+    console.log("printing datasource");
+    
+    // console.log(component.dataSource.data.length);
+    
+    expect(component.dataSource.data.length).toBe(2);
+
+   
   });
 
-  // it('should display rented movies if available', () => {
-  //   getAllMoviesSpy.getAllMovies.and.returnValue(of({ result: true, data: mockMovies }));
+  it('should display the "No movies rented" message when there are no rented movies', () => {
+    const mockResponse = {
+      result: true,
+      data: []
+    };
 
-  //   fixture.detectChanges();
+    spyOn(apiService, 'getAllMovies').and.returnValue(of(mockResponse));
 
-  //   const cardComponents = fixture.debugElement.queryAll(By.css('app-card'));
-  //   expect(cardComponents.length).toBe(1);
-  // });
-
-  it('should display fallback message when no movies are rented', () => {
-    getAllMoviesSpy.getAllMovies.and.returnValue(of({ result: true, data: [] }));
-
+    component.ngOnInit();
     fixture.detectChanges();
 
-    const fallbackMessage = fixture.debugElement.query(By.css('.text-gray-600'));
-    expect(fallbackMessage).toBeTruthy();
-    expect(fallbackMessage.nativeElement.textContent.trim()).toBe('No movies rented till now');
+    const noMoviesMessage = fixture.nativeElement.querySelector('p.text-gray-600');
+    expect(noMoviesMessage).toBeTruthy();
+    expect(noMoviesMessage.textContent).toContain('No movies rented till now');
   });
+
+  it('should handle API error', () => {
+    spyOn(apiService, 'getAllMovies').and.returnValue(of({ result: false, data: [] }));
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    // Check that rentedMovies is still empty after API error
+    expect(component.rentedMovies.length).toBe(0);
+    expect(component.dataSource.data.length).toBe(0);
+
+    // Check if the table is not rendered
+    const table = fixture.nativeElement.querySelector('table');
+    expect(table).toBeNull();
+  });
+
+  it('should correctly format start_date and end_date in the table', () => {
+    const mockResponse = {
+      result: true,
+      data: [
+        { name: 'Movie 1', start_date: '2023-12-01', end_date: '2023-12-15', category: 'Action', language: 'English', availability: false }
+      ]
+    };
+
+    spyOn(apiService, 'getAllMovies').and.returnValue(of(mockResponse));
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const startDateCell = fixture.nativeElement.querySelector('td.mat-cell:nth-child(2)');
+    expect(startDateCell.textContent).toBe(' 12/1/23 '); // Assuming shortDate format
+
+    const endDateCell = fixture.nativeElement.querySelector('td.mat-cell:nth-child(3)');
+    expect(endDateCell.textContent).toBe(' 12/15/23 ');
+  });
+
+ 
 });
