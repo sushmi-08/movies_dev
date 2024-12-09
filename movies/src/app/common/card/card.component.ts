@@ -5,11 +5,14 @@ import { CLIENT_RENEG_LIMIT } from 'tls';
 
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css']
+  styleUrls: ['./card.component.css'],
+
 })
 export class CardComponent implements OnInit {
 
@@ -20,8 +23,10 @@ export class CardComponent implements OnInit {
  @Input() description:string='';
  @Input() movieId:string = '';
  @Input() isAvailable:boolean=true;
+ @Input() endDate:any;
  isExpanded: boolean = false;
  isRentedPage: boolean = false;
+ isHovered: boolean = false;
  userId:any;
 user:any;
 allMovieIds:any[]=[];

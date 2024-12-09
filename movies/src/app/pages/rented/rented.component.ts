@@ -25,9 +25,8 @@ export class RentedComponent implements OnInit {
       console.log(this.rentedMovies,'rented movies');
       this.dataSource.data = this.rentedMovies
       
-      // this.movies = response.data;
-
-      // console.log("movies", this.movies);
+      
+     
     })
 
   }
