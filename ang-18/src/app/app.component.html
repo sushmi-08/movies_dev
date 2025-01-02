@@ -1,0 +1,57 @@
+<!-- <header class="w-full bg-cover bg-center h-[400px] static" style="background-image: url('https://yt3.googleusercontent.com/y4J_Fs5ksRlxx6_LzT1VKxVqH_T8Vyn_RN_YYgLJhuMzBS5qxTgm7NlEcMkQd3hgCpfWtYcEUg=s900-c-k-c0x00ffffff-no-rj');">
+  <div class="absolute inset-0 bg-black opacity-50">
+  
+  <div class="relative z-10 text-white text-center py-16">
+    
+<div>
+  <h1 class="text-2xl font-bold">Angular Features List </h1>
+</div>
+
+<ul>
+  @for (feature of angFeatures();track feature.id) {
+  <li>
+    <span class="mr-4">{{feature.id}}. {{feature.name}}</span>
+    <button type="button" class="bg-green-500 text-white font-bold py-0.5 px-2 rounded-sm hover:bg-green-600 focus:outline-none" (click)=removeFeature(feature.id)>Remove</button>
+  </li>
+}
+</ul>
+</div>
+</div>
+</header> -->
+
+<div class="form-container">
+  <h1>Simple Form</h1>
+
+  <form (ngSubmit)="submitForm()">
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="name" name="name" required />
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="email" name="email" required />
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div *ngIf="submitting$ | async">
+    <p>Submitting...</p>
+  </div>
+
+  <div *ngIf="error$ | async as error">
+    <p>Error: {{ error }}</p>
+  </div>
+
+  <div *ngIf="formData$ | async as formData">
+    <h3>Form Submitted:</h3>
+    <p>Name: {{ formData?.name }}</p>
+    <p>Email: {{ formData?.email }}</p>
+  </div>
+  <!-- <div @if="formData$">
+    <h3>Form Submitted:</h3>
+    <p>Name: {{ formData$?.name }}</p>
+    <p>Email: {{ formData$?.email }}</p>
+  </div> -->
+</div>
